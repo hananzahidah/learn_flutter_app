@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/day_12/tugas5.dart';
+import 'package:flutter_application_1/day_13/tugas6.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-        textTheme: GoogleFonts.interTextTheme(),
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(),
         // textTheme: GoogleFonts.openSansTextTheme(),
       ),
-      home: const Tugas5(),
+      home: const Tugas6(),
     );
   }
 }
