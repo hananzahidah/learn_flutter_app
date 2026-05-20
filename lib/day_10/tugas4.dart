@@ -219,11 +219,11 @@ IconData iniIcon(String namaIcon) {
     case "nama":
       return Icons.person;
     case "email":
-      return Icons.mail;
+      return Icons.mail_outline;
     case "phone":
       return Icons.phone;
     case "password":
-      return Icons.key;
+      return Icons.lock_outline;
     // case "title":
     //   return Icons.keyboard;
     case "location":
