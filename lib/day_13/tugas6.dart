@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/day15/tugas7.dart';
 import 'package:flutter_application_1/day_10/tugas4.dart';
-import 'package:flutter_application_1/day_12/tugas5.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 
 class Tugas6 extends StatefulWidget {
@@ -152,7 +152,7 @@ class _Tugas6State extends State<Tugas6> {
                                             ),
                                             onPressed: () {
                                               Navigator.pop(context);
-                                              context.pushReplacement(Tugas5());
+                                              context.pushReplacement(Tugas7());
                                             },
                                             child: Text(
                                               "Ok",
