@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(),
         // textTheme: GoogleFonts.openSansTextTheme(),
       ),
+      // home: const Tugas9(),
       home: const Tugas6(),
     );
   }

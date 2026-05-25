@@ -45,7 +45,7 @@ class RescueCase {
 List<RescueCase> rescueCases = [
   RescueCase(
     nama: "Kucing Oren",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report1.jpg",
     deskripsi:
         "Ditemukan terluka di area pasar dan membutuhkan perawatan medis.",
     lokasi: "Jl. Jendral Sudirman",
@@ -54,7 +54,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Anak Anjing",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report2.jpg",
     deskripsi: "Masih kecil dan membutuhkan foster sementara.",
     lokasi: "Jl. Asia Afrika",
     status: "Medium",
@@ -62,7 +62,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Burung Merpati",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report3.jpg",
     deskripsi: "Sayap kanan terluka dan tidak bisa terbang.",
     lokasi: "Jl. Diponegoro",
     status: "Low",
@@ -70,7 +70,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Kucing Hitam",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report4.jpg",
     deskripsi: "Terjebak di selokan sempit selama beberapa jam.",
     lokasi: "Jl. Gatot Subroto",
     status: "Urgent",
@@ -78,7 +78,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Kelinci Putih",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report5.jpg",
     deskripsi: "Ditinggalkan pemilik dan membutuhkan adopter baru.",
     lokasi: "Jl. Braga",
     status: "Medium",
@@ -86,7 +86,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Anjing Jalanan",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report6.jpg",
     deskripsi: "Mengalami luka di kaki akibat kecelakaan kendaraan.",
     lokasi: "Jl. Merdeka",
     status: "Urgent",
@@ -94,7 +94,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Hamster Coklat",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report7.jpg",
     deskripsi: "Ditemukan lemas dan membutuhkan perawatan.",
     lokasi: "Jl. Cihampelas",
     status: "Low",
@@ -102,7 +102,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Iguana Hijau",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report8.jpg",
     deskripsi: "Berhasil dievakuasi dari area banjir.",
     lokasi: "Jl. Pasteur",
     status: "Medium",
@@ -110,7 +110,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Musang Kecil",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report9.jpg",
     deskripsi:
         "Ditemukan kelaparan di pinggir jalan. Membutuhkan rumah sementara setelah operasi.",
     lokasi: "Jl. Setiabudi",
@@ -119,7 +119,7 @@ List<RescueCase> rescueCases = [
 
   RescueCase(
     nama: "Kucing Belang",
-    gambar: "assets/images/catalog1.jpg",
+    gambar: "assets/images/report10.jpg",
     deskripsi: "Membutuhkan rumah sementara setelah operasi.",
     lokasi: "Jl. Ir. H. Juanda",
     status: "Low",
