@@ -1,25 +1,32 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/day15/tugas8.dart';
-import 'package:flutter_application_1/day_10/tugas4.dart';
-import 'package:flutter_application_1/day_17/tugas10.dart';
+import 'package:flutter_application_1/day_13/tugas6.dart';
+import 'package:flutter_application_1/day_17/form_field.dart';
+import 'package:flutter_application_1/day_17/success_regist.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 
-class Tugas6 extends StatefulWidget {
-  const Tugas6({super.key});
+class Tugas10 extends StatefulWidget {
+  const Tugas10({super.key});
 
   @override
-  State<Tugas6> createState() => _Tugas6State();
+  State<Tugas10> createState() => _Tugas10State();
 }
 
-class _Tugas6State extends State<Tugas6> {
+class _Tugas10State extends State<Tugas10> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+
   bool passVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFAF9FD),
+
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Padding(
@@ -33,13 +40,12 @@ class _Tugas6State extends State<Tugas6> {
                 spacing: 6,
                 children: [
                   Image.asset("assets/images/logo_blue.png", height: 80),
-
                   Text(
-                    "Welcome Back!",
+                    "Create Account",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
                   ),
                   Text(
-                    "Sign in to continue helping animals and \nreporting rescues.",
+                    "Join us and help more animals.",
                     style: TextStyle(fontSize: 14, color: Color(0xFF414754)),
                     textAlign: TextAlign.center,
                   ),
@@ -56,6 +62,25 @@ class _Tugas6State extends State<Tugas6> {
                     child: Column(
                       spacing: 24,
                       children: [
+                        Column(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Full Name",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+                            FormFieldTemplate(
+                              typeForm: "Name",
+                              controllerType: nameController,
+                            ),
+                          ],
+                        ),
+
                         // Form Email
                         Column(
                           spacing: 8,
@@ -70,7 +95,30 @@ class _Tugas6State extends State<Tugas6> {
                               textAlign: TextAlign.right,
                             ),
 
-                            formItem("Email"),
+                            FormFieldTemplate(
+                              typeForm: "Email",
+                              controllerType: emailController,
+                            ),
+                          ],
+                        ),
+
+                        Column(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Phone (Optional)",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.right,
+                            ),
+
+                            FormFieldTemplate(
+                              typeForm: "Phone",
+                              controllerType: phoneController,
+                            ),
                           ],
                         ),
 
@@ -89,18 +137,36 @@ class _Tugas6State extends State<Tugas6> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                              ],
+                            ),
+                            FormFieldTemplate(
+                              typeForm: "Password",
+                              controllerType: passwordController,
+                            ),
+                          ],
+                        ),
 
+                        // Form Asal
+                        Column(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
                                 Text(
-                                  "Forgot Password?",
+                                  "City",
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF005BBF),
                                   ),
                                 ),
                               ],
                             ),
-                            formItem("Password"),
+                            FormFieldTemplate(
+                              typeForm: "City",
+                              controllerType: cityController,
+                            ),
                           ],
                         ),
 
@@ -130,10 +196,63 @@ class _Tugas6State extends State<Tugas6> {
                                             size: 50,
                                           ),
                                           Text(
-                                            "Login successful!",
-                                            style: TextStyle(fontSize: 20),
+                                            "Are you sure?",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ],
+                                      ),
+
+                                      content: SizedBox(
+                                        height: 100,
+
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Your Input",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text("Name: "),
+                                                Text(nameController.text),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text("Email : "),
+                                                Text(emailController.text),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text("Phone: "),
+                                                Text(
+                                                  phoneController
+                                                          .text
+                                                          .isNotEmpty
+                                                      ? phoneController.text
+                                                      : "-",
+                                                ),
+                                              ],
+                                            ),
+
+                                            Row(
+                                              children: [
+                                                Text("City    :"),
+                                                Text(cityController.text),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
 
                                       backgroundColor: Colors.white,
@@ -152,9 +271,21 @@ class _Tugas6State extends State<Tugas6> {
                                                     ),
                                               ),
                                             ),
+
                                             onPressed: () {
-                                              Navigator.pop(context);
-                                              context.pushReplacement(Tugas8());
+                                              Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SuccessRegist(
+                                                        name:
+                                                            nameController.text,
+                                                        city:
+                                                            cityController.text,
+                                                      ),
+                                                ),
+                                                (route) => false,
+                                              );
                                             },
                                             child: Text(
                                               "Ok",
@@ -180,7 +311,7 @@ class _Tugas6State extends State<Tugas6> {
                               ),
                             ),
                             child: Text(
-                              "Login",
+                              "Sign Up",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -203,7 +334,7 @@ class _Tugas6State extends State<Tugas6> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Text(
-                          "or continue with",
+                          "or register with",
                           style: TextStyle(
                             color: Color(0xFF414754),
                             fontSize: 12,
@@ -251,18 +382,18 @@ class _Tugas6State extends State<Tugas6> {
 
               SizedBox(height: 32),
 
-              // Sign Up
+              // Login
               Text.rich(
                 TextSpan(
-                  text: "Don't have an account?",
+                  text: "Already have an account?",
                   style: TextStyle(color: Color(0xFF414754), fontSize: 14),
 
                   children: [
                     TextSpan(text: "   "),
                     TextSpan(
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => context.push(Tugas10()),
-                      text: "Sign Up",
+                        ..onTap = () => context.push(Tugas6()),
+                      text: "Login",
                       style: TextStyle(
                         color: Color(0xFF005BBF),
                         fontWeight: FontWeight.bold,
@@ -275,79 +406,6 @@ class _Tugas6State extends State<Tugas6> {
           ),
         ),
       ),
-    );
-  }
-
-  TextFormField formItem(String iconName) {
-    return TextFormField(
-      keyboardType: iconName == "Email" ? TextInputType.emailAddress : null,
-
-      obscureText: iconName == "Password" ? !passVisible : false,
-      obscuringCharacter: "*",
-
-      decoration: InputDecoration(
-        hintText: "Enter your ${iconName.toLowerCase()}",
-        hintStyle: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Color(0xFFC1C6D6)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Color(0xFFC1C6D6)),
-        ),
-
-        filled: true,
-        fillColor: Colors.white,
-
-        suffixIcon: iconName == "Password"
-            ? IconButton(
-                onPressed: () {
-                  setState(() {
-                    passVisible = !passVisible;
-                  });
-                },
-
-                icon: Icon(
-                  passVisible
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
-
-                  color: const Color(0xFF727785),
-                ),
-              )
-            : null,
-
-        prefixIcon: iconName.isEmpty
-            ? null
-            : (Icon(iniIcon(iconName.toLowerCase()), color: Color(0xFF727785))),
-
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.red, width: 1.5),
-        ),
-
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Color(0xFFC1C6D6)),
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "$iconName is required";
-        }
-
-        if (iconName == "Password") {
-          if (value.length < 8) {
-            return "Password less than 8 characters";
-          }
-        } else if (iconName == "Email") {
-          if (!value.contains("@")) {
-            return "Incorrect email format";
-          }
-        }
-        return null;
-      },
     );
   }
 }

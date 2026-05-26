@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/day_13/tugas6.dart';
+import 'package:flutter_application_1/day_17/tugas10.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         // textTheme: GoogleFonts.openSansTextTheme(),
       ),
       // home: const Tugas9(),
-      home: const Tugas6(),
+      home: const Tugas10(),
     );
   }
 }
