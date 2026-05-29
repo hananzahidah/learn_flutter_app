@@ -11,7 +11,7 @@ class Tugas8 extends StatefulWidget {
 }
 
 class _Tugas8State extends State<Tugas8> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
     Tugas7(),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/day15/tugas8.dart';
 import 'package:flutter_application_1/day_10/tugas4.dart';
 import 'package:flutter_application_1/day_17/tugas10.dart';
+import 'package:flutter_application_1/day_19/database/preference_handler.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 
 class Tugas6 extends StatefulWidget {
@@ -152,7 +153,11 @@ class _Tugas6State extends State<Tugas6> {
                                                     ),
                                               ),
                                             ),
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              await PreferenceHandler.setLogin(
+                                                true,
+                                              );
+
                                               Navigator.pop(context);
                                               context.pushReplacement(Tugas8());
                                             },

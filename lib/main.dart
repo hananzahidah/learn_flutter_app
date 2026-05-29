@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/day_17/tugas10.dart';
+import 'package:flutter_application_1/day_19/database/preference_handler.dart';
+import 'package:flutter_application_1/day_19/views/splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('id_ID', null);
+  await PreferenceHandler.init();
   runApp(const MyApp());
 }
 
@@ -35,8 +40,8 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(),
         // textTheme: GoogleFonts.openSansTextTheme(),
       ),
-      // home: const Tugas9(),
-      home: const Tugas10(),
+      home: const SplashScreen(),
+      // home: const Tugas10(),
     );
   }
 }

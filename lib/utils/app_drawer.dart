@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/day_13/tugas6.dart';
+import 'package:flutter_application_1/day_19/database/preference_handler.dart';
+import 'package:flutter_application_1/extension/navigator.dart';
 
 class AppDrawer extends StatelessWidget {
   final Function(GlobalKey) onScroll;
@@ -96,6 +99,25 @@ class AppDrawer extends StatelessWidget {
             icon: Icons.timer,
             title: "Waktu Pengingat",
             onTap: () => _scroll(context, timeKey),
+          ),
+
+          _buildTile(
+            context,
+            icon: Icons.logout_sharp,
+            title: "Logout",
+            onTap: () {
+              PreferenceHandler.logOut();
+              context.pushAndRemoveAll(Tugas6());
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Logout successful!",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Color(0xFF005BBF),
+                ),
+              );
+            },
           ),
         ],
       ),
