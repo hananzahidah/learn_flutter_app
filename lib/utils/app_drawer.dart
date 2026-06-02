@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/day_13/tugas6.dart';
 import 'package:flutter_application_1/day_19/database/preference_handler.dart';
+import 'package:flutter_application_1/day_20/views/login.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -107,7 +107,7 @@ class AppDrawer extends StatelessWidget {
             title: "Logout",
             onTap: () {
               PreferenceHandler.logOut();
-              context.pushAndRemoveAll(Tugas6());
+              context.pushAndRemoveAll(LoginScreen());
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(

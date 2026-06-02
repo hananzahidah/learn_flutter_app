@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/day15/tugas8.dart';
-import 'package:flutter_application_1/day_13/tugas6.dart';
 import 'package:flutter_application_1/day_19/database/preference_handler.dart';
+import 'package:flutter_application_1/day_20/views/home.dart';
+import 'package:flutter_application_1/day_20/views/login.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,9 +22,9 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 4));
     if (!mounted) return;
     if (PreferenceHandler.isLogin) {
-      context.pushAndRemoveAll(Tugas8());
+      context.pushAndRemoveAll(Home());
     } else {
-      context.pushAndRemoveAll(Tugas6());
+      context.pushAndRemoveAll(LoginScreen());
     }
   }
 
