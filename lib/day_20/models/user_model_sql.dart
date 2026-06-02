@@ -1,19 +1,20 @@
 import 'dart:convert';
 
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserModelSql {
   final int? id;
-  final String? email;
-  final String? password;
-  final String? fullName;
+  final String email;
+  final String password;
+  final String fullName;
   final String? phone;
-  final String? role;
+  final String role;
   UserModelSql({
     this.id,
-    this.email,
-    this.password,
-    this.fullName,
+    required this.email,
+    required this.password,
+    required this.fullName,
     this.phone,
-    this.role,
+    required this.role,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,11 +31,11 @@ class UserModelSql {
   factory UserModelSql.fromMap(Map<String, dynamic> map) {
     return UserModelSql(
       id: map['id'] != null ? map['id'] as int : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      password: map['password'] != null ? map['password'] as String : null,
-      fullName: map['fullName'] != null ? map['fullName'] as String : null,
+      email: map['email'] as String,
+      password: map['password'] as String,
+      fullName: map['fullName'] as String,
       phone: map['phone'] != null ? map['phone'] as String : null,
-      role: map['role'] != null ? map['role'] as String : null,
+      role: map['role'] as String,
     );
   }
 

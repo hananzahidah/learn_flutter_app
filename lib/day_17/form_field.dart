@@ -103,6 +103,12 @@ class _FormFieldTemplateState extends State<FormFieldTemplate> {
             if (!value.contains("@")) {
               return "Incorrect email format";
             }
+          } else if (widget.typeForm == "Role") {
+            final role = value.toLowerCase().trim();
+
+            if (role != "general" && role != "volunteer") {
+              return "Role must be general or volunteer";
+            }
           }
         }
 

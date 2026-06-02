@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter_application_1/day_20/models/login_model.dart';
 import 'package:flutter_application_1/day_20/models/user_model_sql.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -39,7 +40,7 @@ class DBHelper {
     );
   }
 
-  // Fungsi Register CREATE
+  // Register New User
   Future<bool> registerUser(UserModelSql pengguna) async {
     final db = await database;
     try {
@@ -51,8 +52,34 @@ class DBHelper {
     }
   }
 
-  // Fungsi Login GET
-  Future<UserModelSql?> loginUser(UserModelSql pengguna) async {
+  // Check Existing Email
+  Future<bool> checkEmailExists(String email) async {
+    final db = await database;
+
+    final result = await db.query(
+      'users',
+      where: 'email = ?',
+      whereArgs: [email],
+    );
+
+    return result.isNotEmpty;
+  }
+
+  // Check Existing Phone
+  Future<bool> checkPhoneExists(String phone) async {
+    final db = await database;
+
+    final result = await db.query(
+      'users',
+      where: 'phone = ?',
+      whereArgs: [phone],
+    );
+
+    return result.isNotEmpty;
+  }
+
+  // Login User
+  Future<LoginModel?> loginUser(LoginModel pengguna) async {
     final db = await database;
 
     final List<Map<String, dynamic>> results = await db.query(
@@ -63,12 +90,12 @@ class DBHelper {
     log(results.toString());
 
     if (results.isNotEmpty) {
-      return UserModelSql.fromMap(results.first);
+      return LoginModel.fromMap(results.first);
     }
     return null;
   }
 
-  // All user
+  // Get All User Data
   Future<List<UserModelSql>> getAllUsers() async {
     final db = await database;
     final List<Map<String, dynamic>> results = await db.query('users');
@@ -76,7 +103,7 @@ class DBHelper {
     return results.map((map) => UserModelSql.fromMap(map)).toList();
   }
 
-  // Delete user by ID
+  // Delete User by ID
   Future<void> deleteUser(int id) async {
     final db = await database;
     await db.delete('users', where: 'id = ?', whereArgs: [id]);

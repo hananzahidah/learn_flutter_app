@@ -16,6 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _formKey = GlobalKey<FormState>();
+  final _editFormKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -23,22 +24,79 @@ class _HomeState extends State<Home> {
   final TextEditingController roleController = TextEditingController();
 
   void register() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     final inputEmail = emailController.text.trim();
     final inputPass = passwordController.text.trim();
     final inputFullname = nameController.text.trim();
     final inputPhone = phoneController.text.isEmpty
         ? null
         : phoneController.text.trim();
-    final String inputRole = roleController.text.trim();
+    final String inputRole = roleController.text.trim().toLowerCase();
 
     if (inputEmail.isEmpty ||
         inputPass.isEmpty ||
         inputFullname.isEmpty ||
         inputRole.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Isi field yang wajib!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Isi field yang wajib!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
       return;
+    }
+
+    if (inputRole.toLowerCase() != 'general' &&
+        inputRole.toLowerCase() != 'volunteer') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Role hanya boleh general atau volunteer!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
+
+      return;
+    }
+
+    final emailExists = await DBHelper().checkEmailExists(inputEmail);
+
+    if (emailExists) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Email sudah terdaftar!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
+      return;
+    }
+
+    if (inputPhone != null) {
+      final phoneExists = await DBHelper().checkPhoneExists(inputPhone);
+
+      if (phoneExists) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Nomor HP sudah digunakan!',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Color(0xFF005BBF),
+          ),
+        );
+        return;
+      }
     }
 
     final user = UserModelSql(
@@ -54,15 +112,32 @@ class _HomeState extends State<Home> {
     if (!mounted) return;
 
     if (success) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Akun berhasil dibuat')));
+      emailController.clear();
+      passwordController.clear();
+      nameController.clear();
+      phoneController.clear();
+      roleController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Akun berhasil dibuat',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
 
       setState(() {});
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Email sudah terdaftar!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Gagal membuat akun!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
     }
   }
 
@@ -72,182 +147,232 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: IconButton(
-          onPressed: () {
-            PreferenceHandler.logOut();
-            context.pushAndRemoveAll(LoginScreen());
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  "Logout successful!",
-                  style: TextStyle(color: Colors.white),
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              spacing: 10,
+
+              children: [
+                Image.asset("assets/images/logo_blue.png", height: 32),
+                Text(
+                  "ResQare",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color(0xff0061FF),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                backgroundColor: Color(0xFF005BBF),
+              ],
+            ),
+            TextButton(
+              onPressed: () async {
+                await PreferenceHandler.logOut();
+                context.pushAndRemoveAll(LoginScreen());
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Logout successful!",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Color(0xFF005BBF),
+                  ),
+                );
+              },
+              child: Row(
+                spacing: 4,
+                children: [
+                  Icon(Icons.login, color: Colors.red),
+                  Text("Logout", style: TextStyle(color: Colors.red)),
+                ],
               ),
-            );
-          },
-          icon: Icon(Icons.login),
+            ),
+          ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      backgroundColor: Color(0xFFFAF9FD),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(20),
         child: Column(
           spacing: 14,
           children: [
-            Column(
-              spacing: 10,
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    spacing: 12,
-                    children: [
-                      Column(
-                        spacing: 8,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FormFieldTemplate(
-                            typeForm: "Name",
-                            controllerType: nameController,
-                          ),
-                        ],
-                      ),
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(width: 1, color: const Color(0xffEDEEF1)),
+              ),
+              child: Column(
+                spacing: 16,
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      spacing: 12,
+                      children: [
+                        FormFieldTemplate(
+                          typeForm: "Name",
+                          controllerType: nameController,
+                        ),
 
-                      // Form Email
-                      Column(
-                        spacing: 8,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FormFieldTemplate(
-                            typeForm: "Email",
-                            controllerType: emailController,
-                          ),
-                        ],
-                      ),
+                        FormFieldTemplate(
+                          typeForm: "Email",
+                          controllerType: emailController,
+                        ),
 
-                      Column(
-                        spacing: 8,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FormFieldTemplate(
-                            typeForm: "Phone",
-                            controllerType: phoneController,
-                          ),
-                        ],
-                      ),
+                        FormFieldTemplate(
+                          typeForm: "Phone",
+                          controllerType: phoneController,
+                        ),
 
-                      // Form Pasword
-                      Column(
-                        spacing: 8,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FormFieldTemplate(
-                            typeForm: "Password",
-                            controllerType: passwordController,
-                          ),
-                        ],
-                      ),
+                        FormFieldTemplate(
+                          typeForm: "Password",
+                          controllerType: passwordController,
+                        ),
 
-                      // Form Asal
-                      Column(
-                        spacing: 8,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FormFieldTemplate(
-                            typeForm: "City",
-                            controllerType: roleController,
-                          ),
-                        ],
-                      ),
+                        FormFieldTemplate(
+                          typeForm: "Role",
+                          controllerType: roleController,
+                        ),
 
-                      // Button Login
-                      SizedBox(
-                        width: double.infinity,
-                        height: 56,
-                        child: ElevatedButton(
-                          onPressed: register,
-
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF005BBF),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadiusGeometry.circular(12),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 56,
+                          child: ElevatedButton(
+                            onPressed: register,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF005BBF),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                            child: const Text(
+                              "Create User",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Registered Users",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+
+                ElevatedButton.icon(
+                  onPressed: () {
+                    context.push(DatabaseList());
+                  },
+                  icon: const Icon(Icons.storage, color: Color(0xFF327AF4)),
+                  label: const Text(
+                    "Database",
+                    style: TextStyle(color: Color(0xFF327AF4)),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ],
             ),
 
-            Expanded(
-              child: FutureBuilder<List<UserModelSql>>(
-                future: DBHelper().getAllUsers(),
-                builder: (context, snapshot) {
-                  // Menampilkan indikator loading saat menunggu data
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+            FutureBuilder<List<UserModelSql>>(
+              future: DBHelper().getAllUsers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                  // Menangani jika terjadi error
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Terjadi kesalahan: ${snapshot.error}'),
-                    );
-                  }
-
-                  // Menangani jika data kosong atau tidak ada data
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(
-                      child: Text('Tidak ada data pengguna.'),
-                    );
-                  }
-
-                  // Jika data berhasil didapatkan
-                  final daftarPengguna = snapshot.data!;
-
-                  return ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: daftarPengguna.length,
-                    itemBuilder: (context, index) {
-                      final user = daftarPengguna[index];
-                      return Card(
-                        child: ListTile(
-                          leading: const CircleAvatar(
-                            child: Icon(Icons.person),
-                          ),
-                          title: Text(user.email ?? ""),
-                          subtitle: Text('Password: ${user.password}'),
-                          trailing: IconButton(
-                            icon: const Icon(
-                              Icons.edit_document,
-                              color: Colors.blueGrey,
-                            ),
-                            onPressed: () => _showBottomSheet(context, user),
-                          ),
-                          onTap: () => _showBottomSheet(context, user),
-                        ),
-                      );
-                    },
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Terjadi kesalahan: ${snapshot.error}'),
                   );
-                },
-              ),
-            ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  context.push(DatabaseList());
-                },
-                child: Text("Lihat Database"),
-              ),
+                }
+
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('Tidak ada data pengguna.'));
+                }
+
+                final daftarPengguna = snapshot.data!;
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: daftarPengguna.length,
+                  itemBuilder: (context, index) {
+                    final user = daftarPengguna[index];
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 14),
+
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(0xffEDEEF1),
+                        ),
+                      ),
+
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 6,
+                        ),
+
+                        leading: CircleAvatar(
+                          radius: 26,
+                          backgroundColor: const Color(0xFFEAF2FF),
+
+                          child: Icon(Icons.person, color: Color(0xFF005BBF)),
+                        ),
+
+                        title: Text(
+                          user.fullName,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 6),
+
+                            Text(user.email),
+
+                            if (user.phone != null) Text(user.phone!),
+                          ],
+                        ),
+
+                        trailing: IconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Color(0xFF005BBF),
+                          ),
+                          onPressed: () => _showBottomSheet(context, user),
+                        ),
+
+                        onTap: () => _showBottomSheet(context, user),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),
@@ -286,52 +411,50 @@ class _HomeState extends State<Home> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Phone',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: roleController,
-                decoration: const InputDecoration(
-                  labelText: 'Role',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 20),
 
-              // Row untuk Tombol Update dan Delete
+              Column(
+                spacing: 16,
+                children: [
+                  Form(
+                    key: _editFormKey,
+                    child: Column(
+                      spacing: 12,
+                      children: [
+                        FormFieldTemplate(
+                          typeForm: "Name",
+                          controllerType: nameController,
+                        ),
+
+                        FormFieldTemplate(
+                          typeForm: "Email",
+                          controllerType: emailController,
+                        ),
+
+                        FormFieldTemplate(
+                          typeForm: "Phone",
+                          controllerType: phoneController,
+                        ),
+
+                        FormFieldTemplate(
+                          typeForm: "Password",
+                          controllerType: passwordController,
+                        ),
+
+                        FormFieldTemplate(
+                          typeForm: "Role",
+                          controllerType: roleController,
+                        ),
+
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Tombol Update
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -341,24 +464,55 @@ class _HomeState extends State<Home> {
                       'Update',
                       style: TextStyle(color: Colors.white),
                     ),
-                    // onPressed: () {},
                     onPressed: () async {
+                      if (!_editFormKey.currentState!.validate()) {
+                        return;
+                      }
                       if (user.id != null) {
+                        final role = roleController.text.toLowerCase().trim();
+
+                        if (role != 'general' && role != 'volunteer') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Role hanya boleh general atau volunteer!',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Color(0xFF005BBF),
+                            ),
+                          );
+
+                          return;
+                        }
+
                         final updatedUser = UserModelSql(
                           id: user.id,
                           email: emailController.text.trim(),
-                          password: passwordController.text,
-                          phone: phoneController.text,
-                          fullName: nameController.text,
-                          role: roleController.text,
+                          password: passwordController.text.trim(),
+
+                          phone: phoneController.text.trim().isEmpty
+                              ? null
+                              : phoneController.text.trim(),
+
+                          fullName: nameController.text.trim(),
+
+                          role: role,
                         );
+
                         bool success = await DBHelper().updateUser(updatedUser);
+
                         if (success && context.mounted) {
                           Navigator.pop(context);
+
                           setState(() {});
+
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Data berhasil diperbarui'),
+                              content: Text(
+                                'Data berhasil diperbarui',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Color(0xFF005BBF),
                             ),
                           );
                         }
@@ -366,7 +520,6 @@ class _HomeState extends State<Home> {
                     },
                   ),
 
-                  // Tombol Delete
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
@@ -384,7 +537,11 @@ class _HomeState extends State<Home> {
                           setState(() {});
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Data berhasil dihapus'),
+                              content: Text(
+                                'Data berhasil dihapus',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              backgroundColor: Color(0xFF005BBF),
                             ),
                           );
                         }

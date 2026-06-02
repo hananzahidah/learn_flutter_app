@@ -16,6 +16,8 @@ IconData iconForm(String namaIcon) {
       return Icons.location_on_outlined;
     case "location":
       return Icons.location_on;
+    case "role":
+      return Icons.category_outlined;
     default:
       return Icons.keyboard;
   }

@@ -1,8 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/day_17/form_field.dart';
+import 'package:flutter_application_1/day_19/database/preference_handler.dart';
 import 'package:flutter_application_1/day_20/database/db_helper.dart';
-import 'package:flutter_application_1/day_20/models/user_model_sql.dart';
+import 'package:flutter_application_1/day_20/models/login_model.dart';
 import 'package:flutter_application_1/day_20/views/home.dart';
 import 'package:flutter_application_1/day_20/views/register.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
@@ -22,30 +23,51 @@ class _LoginScreenState extends State<LoginScreen> {
   bool passVisible = false;
 
   void login() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     final inputEmail = emailController.text.trim();
     final inputPass = passwordController.text.trim();
 
     if (inputEmail.isEmpty || inputPass.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Isi semua field!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Isi semua field!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
       return;
     }
 
     final user = await DBHelper().loginUser(
-      UserModelSql(email: inputEmail, password: inputPass),
+      LoginModel(email: inputEmail, password: inputPass),
     );
 
     if (!mounted) return;
 
     if (user != null) {
-      // await PreferenceHandler.setLogin(true);
-      // Navigator.pop(context);
+      await PreferenceHandler.setLogin(true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Login berhasil!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
       context.pushAndRemoveAll(Home());
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Login gagal! email atau Password salah.'),
+          content: Text(
+            'Login gagal! email atau Password salah.',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
         ),
       );
     }

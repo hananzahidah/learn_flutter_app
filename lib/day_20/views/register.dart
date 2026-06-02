@@ -22,21 +22,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController roleController = TextEditingController();
 
   void register() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     final inputEmail = emailController.text.trim();
     final inputPass = passwordController.text.trim();
     final inputFullname = nameController.text.trim();
     final inputPhone = phoneController.text.isEmpty
         ? null
         : phoneController.text.trim();
-    final inputRole = roleController.text.trim();
+    final inputRole = roleController.text.trim().toLowerCase();
 
     if (inputEmail.isEmpty ||
         inputPass.isEmpty ||
         inputFullname.isEmpty ||
         inputRole.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Isi field yang wajib!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Isi field yang wajib!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
+      return;
+    }
+
+    final emailExists = await DBHelper().checkEmailExists(inputEmail);
+
+    if (emailExists) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Email sudah terdaftar!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
+      return;
+    }
+
+    if (inputPhone != null) {
+      final phoneExists = await DBHelper().checkPhoneExists(inputPhone);
+
+      if (phoneExists) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Nomor HP sudah digunakan!',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Color(0xFF005BBF),
+          ),
+        );
+        return;
+      }
+    }
+
+    if (inputRole.toLowerCase() != 'general' &&
+        inputRole.toLowerCase() != 'volunteer') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Role hanya boleh general atau volunteer!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
+
       return;
     }
 
@@ -53,14 +109,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (!mounted) return;
 
     if (success) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Akun berhasil dibuat')));
+      emailController.clear();
+      passwordController.clear();
+      nameController.clear();
+      phoneController.clear();
+      roleController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Akun berhasil dibuat',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
       context.push(LoginScreen());
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Email sudah terdaftar!')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Email sudah terdaftar!',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xFF005BBF),
+        ),
+      );
     }
   }
 
@@ -199,7 +272,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "City",
+                                  "Role",
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -208,7 +281,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ],
                             ),
                             FormFieldTemplate(
-                              typeForm: "City",
+                              typeForm: "Role",
                               controllerType: roleController,
                             ),
                           ],
