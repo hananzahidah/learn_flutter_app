@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/day_19/database/preference_handler.dart';
-import 'package:flutter_application_1/day_19/views/splash_screen.dart';
+import 'package:flutter_application_1/day_33/tugas/views/anime_list_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(),
         // textTheme: GoogleFonts.openSansTextTheme(),
       ),
-      home: const SplashScreen(),
+      home: const AnimeListScreen(),
       // home: const Tugas10(),
     );
   }
