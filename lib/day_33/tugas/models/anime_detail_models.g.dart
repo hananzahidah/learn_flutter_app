@@ -1,0 +1,203 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'anime_detail_models.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+AnimeDetailResponse _$AnimeDetailResponseFromJson(Map<String, dynamic> json) =>
+    AnimeDetailResponse(
+      data: AnimeDetail.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AnimeDetailResponseToJson(
+  AnimeDetailResponse instance,
+) => <String, dynamic>{'data': instance.data.toJson()};
+
+AnimeDetail _$AnimeDetailFromJson(Map<String, dynamic> json) => AnimeDetail(
+  malId: (json['mal_id'] as num).toInt(),
+  url: json['url'] as String,
+  images: Images.fromJson(json['images'] as Map<String, dynamic>),
+  trailer: Trailer.fromJson(json['trailer'] as Map<String, dynamic>),
+  approved: json['approved'] as bool,
+  title: json['title'] as String,
+  titleEnglish: json['title_english'] as String?,
+  titleJapanese: json['title_japanese'] as String?,
+  titleSynonyms: (json['title_synonyms'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList(),
+  type: json['type'] as String,
+  source: json['source'] as String,
+  episodes: (json['episodes'] as num?)?.toInt(),
+  status: json['status'] as String,
+  airing: json['airing'] as bool,
+  aired: json['aired'] == null
+      ? null
+      : Aired.fromJson(json['aired'] as Map<String, dynamic>),
+  duration: json['duration'] as String,
+  rating: json['rating'] as String?,
+  score: (json['score'] as num?)?.toDouble(),
+  scoredBy: (json['scored_by'] as num?)?.toInt(),
+  rank: (json['rank'] as num?)?.toInt(),
+  popularity: (json['popularity'] as num?)?.toInt(),
+  members: (json['members'] as num?)?.toInt(),
+  favorites: (json['favorites'] as num?)?.toInt(),
+  synopsis: json['synopsis'] as String?,
+  background: json['background'] as String?,
+  season: json['season'] as String?,
+  year: (json['year'] as num?)?.toInt(),
+  broadcast: json['broadcast'] == null
+      ? null
+      : Broadcast.fromJson(json['broadcast'] as Map<String, dynamic>),
+  producers: (json['producers'] as List<dynamic>)
+      .map((e) => AnimeCompany.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  licensors: (json['licensors'] as List<dynamic>)
+      .map((e) => AnimeCompany.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  studios: (json['studios'] as List<dynamic>)
+      .map((e) => AnimeCompany.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  genres: (json['genres'] as List<dynamic>)
+      .map((e) => Genre.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  explicitGenres: (json['explicit_genres'] as List<dynamic>)
+      .map((e) => Genre.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  themes: (json['themes'] as List<dynamic>)
+      .map((e) => Genre.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  demographics: (json['demographics'] as List<dynamic>)
+      .map((e) => Genre.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$AnimeDetailToJson(
+  AnimeDetail instance,
+) => <String, dynamic>{
+  'mal_id': instance.malId,
+  'url': instance.url,
+  'images': instance.images.toJson(),
+  'trailer': instance.trailer.toJson(),
+  'approved': instance.approved,
+  'title': instance.title,
+  'title_english': instance.titleEnglish,
+  'title_japanese': instance.titleJapanese,
+  'title_synonyms': instance.titleSynonyms,
+  'type': instance.type,
+  'source': instance.source,
+  'episodes': instance.episodes,
+  'status': instance.status,
+  'airing': instance.airing,
+  'aired': instance.aired?.toJson(),
+  'duration': instance.duration,
+  'rating': instance.rating,
+  'score': instance.score,
+  'scored_by': instance.scoredBy,
+  'rank': instance.rank,
+  'popularity': instance.popularity,
+  'members': instance.members,
+  'favorites': instance.favorites,
+  'synopsis': instance.synopsis,
+  'background': instance.background,
+  'season': instance.season,
+  'year': instance.year,
+  'broadcast': instance.broadcast?.toJson(),
+  'producers': instance.producers.map((e) => e.toJson()).toList(),
+  'licensors': instance.licensors.map((e) => e.toJson()).toList(),
+  'studios': instance.studios.map((e) => e.toJson()).toList(),
+  'genres': instance.genres.map((e) => e.toJson()).toList(),
+  'explicit_genres': instance.explicitGenres.map((e) => e.toJson()).toList(),
+  'themes': instance.themes.map((e) => e.toJson()).toList(),
+  'demographics': instance.demographics.map((e) => e.toJson()).toList(),
+};
+
+Images _$ImagesFromJson(Map<String, dynamic> json) => Images(
+  jpg: ImageType.fromJson(json['jpg'] as Map<String, dynamic>),
+  webp: ImageType.fromJson(json['webp'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$ImagesToJson(Images instance) => <String, dynamic>{
+  'jpg': instance.jpg.toJson(),
+  'webp': instance.webp.toJson(),
+};
+
+ImageType _$ImageTypeFromJson(Map<String, dynamic> json) => ImageType(
+  imageUrl: json['image_url'] as String,
+  smallImageUrl: json['small_image_url'] as String,
+  largeImageUrl: json['large_image_url'] as String,
+);
+
+Map<String, dynamic> _$ImageTypeToJson(ImageType instance) => <String, dynamic>{
+  'image_url': instance.imageUrl,
+  'small_image_url': instance.smallImageUrl,
+  'large_image_url': instance.largeImageUrl,
+};
+
+Trailer _$TrailerFromJson(Map<String, dynamic> json) => Trailer(
+  youtubeId: json['youtube_id'] as String?,
+  url: json['url'] as String?,
+  embedUrl: json['embed_url'] as String?,
+);
+
+Map<String, dynamic> _$TrailerToJson(Trailer instance) => <String, dynamic>{
+  'youtube_id': instance.youtubeId,
+  'url': instance.url,
+  'embed_url': instance.embedUrl,
+};
+
+Aired _$AiredFromJson(Map<String, dynamic> json) => Aired(
+  from: json['from'] as String?,
+  to: json['to'] as String?,
+  string: json['string'] as String?,
+);
+
+Map<String, dynamic> _$AiredToJson(Aired instance) => <String, dynamic>{
+  'from': instance.from,
+  'to': instance.to,
+  'string': instance.string,
+};
+
+Broadcast _$BroadcastFromJson(Map<String, dynamic> json) => Broadcast(
+  day: json['day'] as String?,
+  time: json['time'] as String?,
+  timezone: json['timezone'] as String?,
+  string: json['string'] as String?,
+);
+
+Map<String, dynamic> _$BroadcastToJson(Broadcast instance) => <String, dynamic>{
+  'day': instance.day,
+  'time': instance.time,
+  'timezone': instance.timezone,
+  'string': instance.string,
+};
+
+AnimeCompany _$AnimeCompanyFromJson(Map<String, dynamic> json) => AnimeCompany(
+  malId: (json['mal_id'] as num).toInt(),
+  type: json['type'] as String,
+  name: json['name'] as String,
+  url: json['url'] as String,
+);
+
+Map<String, dynamic> _$AnimeCompanyToJson(AnimeCompany instance) =>
+    <String, dynamic>{
+      'mal_id': instance.malId,
+      'type': instance.type,
+      'name': instance.name,
+      'url': instance.url,
+    };
+
+Genre _$GenreFromJson(Map<String, dynamic> json) => Genre(
+  malId: (json['mal_id'] as num).toInt(),
+  type: json['type'] as String,
+  name: json['name'] as String,
+  url: json['url'] as String,
+);
+
+Map<String, dynamic> _$GenreToJson(Genre instance) => <String, dynamic>{
+  'mal_id': instance.malId,
+  'type': instance.type,
+  'name': instance.name,
+  'url': instance.url,
+};

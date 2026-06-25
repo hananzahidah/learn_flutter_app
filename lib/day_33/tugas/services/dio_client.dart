@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 Dio createDioClient() {
   final dio = Dio(
     BaseOptions(
-      baseUrl: 'https://api.jikan.moe/v4',
+      baseUrl: 'https://api.jikan.moe/v4/anime',
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
       headers: {

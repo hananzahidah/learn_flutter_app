@@ -12,7 +12,7 @@ part of 'api_anime_services.dart';
 
 class _ApiService implements ApiService {
   _ApiService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'https://api.jikan.moe/v4';
+    baseUrl ??= 'https://api.jikan.moe/v4/anime';
   }
 
   final Dio _dio;
@@ -31,7 +31,7 @@ class _ApiService implements ApiService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/anime',
+            '/',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -41,6 +41,33 @@ class _ApiService implements ApiService {
     late AnimeResponse _value;
     try {
       _value = AnimeResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<AnimeDetailResponse> getDetailAnime(int id) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<AnimeDetailResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AnimeDetailResponse _value;
+    try {
+      _value = AnimeDetailResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_application_1/day_33/tugas/models/anime_detail_models.dart';
 import 'package:flutter_application_1/day_33/tugas/models/anime_models.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -10,4 +11,7 @@ abstract class ApiService {
 
   @GET('/')
   Future<AnimeResponse> getAllAnime();
+
+  @GET('/{id}')
+  Future<AnimeDetailResponse> getDetailAnime(@Path('id') int id);
 }
