@@ -10,7 +10,18 @@ abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   @GET('/')
-  Future<AnimeResponse> getAllAnime();
+  Future<AnimeResponse> getAllAnime({
+    @Query('q') String? query,
+    @Query('genres') String? genres,
+    @Query('status') String? status,
+    @Query('type') String? type,
+    @Query('rating') String? rating,
+    @Query('order_by') String? orderBy,
+    @Query('sort') String? sort,
+    @Query('page') int? page,
+    @Query('limit') int? limit,
+    @Query('sfw') bool? sfw,
+  });
 
   @GET('/{id}')
   Future<AnimeDetailResponse> getDetailAnime(@Path('id') int id);

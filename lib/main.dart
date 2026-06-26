@@ -40,8 +40,9 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.soraTextTheme(),
         // textTheme: GoogleFonts.openSansTextTheme(),
       ),
+
       home: const AnimeListScreen(),
-      // home: const Tugas10(),
+      // home: const DetailScreen(id: 1),
     );
   }
 }

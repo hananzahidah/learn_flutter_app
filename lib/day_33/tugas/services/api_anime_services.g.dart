@@ -22,16 +22,39 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<AnimeResponse> getAllAnime() async {
+  Future<AnimeResponse> getAllAnime({
+    String? query,
+    String? genres,
+    String? status,
+    String? type,
+    String? rating,
+    String? orderBy,
+    String? sort,
+    int? page,
+    int? limit,
+    bool? sfw,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'q': query,
+      r'genres': genres,
+      r'status': status,
+      r'type': type,
+      r'rating': rating,
+      r'order_by': orderBy,
+      r'sort': sort,
+      r'page': page,
+      r'limit': limit,
+      r'sfw': sfw,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<AnimeResponse>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/',
+            '',
             queryParameters: queryParameters,
             data: _data,
           )

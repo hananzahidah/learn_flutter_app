@@ -15,6 +15,8 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late final ApiService _apiService;
   late Future<AnimeDetailResponse> _detailsFuture;
+  bool _isSynopsisExpanded = false;
+  bool _isBookmarked = false;
 
   @override
   void initState() {
@@ -61,16 +63,16 @@ class _DetailScreenState extends State<DetailScreen> {
                           'Gagal memuat data:\n${snapshot.error}',
                           textAlign: TextAlign.center,
                           style: const TextStyle(color: Colors.grey),
-                        ), // Text
+                        ),
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: _refreshPosts,
                           child: const Text('Coba Lagi'),
-                        ), // ElevatedButton
+                        ),
                       ],
-                    ), // Column
-                  ), // Padding
-                ); // Center
+                    ),
+                  ),
+                );
               }
 
               if (!snapshot.hasData) {
@@ -115,17 +117,32 @@ class _DetailScreenState extends State<DetailScreen> {
                             Positioned(
                               bottom: 16,
                               left: 16,
+                              right: 16,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
+                                    detail.type,
+                                    style: TextStyle(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.5,
+                                      ),
+                                      fontSize: 16,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
                                     detail.title,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 30,
+                                      fontSize: 32,
                                       fontWeight: FontWeight.w900,
                                     ),
                                     textAlign: TextAlign.left,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
                                     detail.titleJapanese!,
@@ -133,9 +150,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.white.withValues(
                                         alpha: 0.5,
                                       ),
-                                      fontSize: 18,
+                                      fontSize: 20,
                                     ),
                                     textAlign: TextAlign.left,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -147,87 +166,6 @@ class _DetailScreenState extends State<DetailScreen> {
                           padding: const EdgeInsets.all(20.0),
                           child: Column(
                             children: [
-                              Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.05),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            "Score",
-                                            style: TextStyle(
-                                              color: Colors.white.withValues(
-                                                alpha: 0.5,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            detail.score.toString(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            "Rank",
-                                            style: TextStyle(
-                                              color: Colors.white.withValues(
-                                                alpha: 0.5,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            '#${detail.rank.toString()}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    Divider(),
-
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            "Popularity",
-                                            style: TextStyle(
-                                              color: Colors.white.withValues(
-                                                alpha: 0.5,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            '#${detail.popularity.toString()}',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(height: 24),
                               SizedBox(
                                 child: Row(
                                   spacing: 16,
@@ -245,6 +183,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           padding: EdgeInsets.symmetric(
                                             vertical: 14,
                                           ),
+                                          backgroundColor: Color(0xFFFF2D55),
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
@@ -253,23 +192,67 @@ class _DetailScreenState extends State<DetailScreen> {
                                           children: [
                                             Icon(
                                               Icons.play_arrow,
-                                              color: Colors.black,
+                                              color: Colors.white,
+                                              size: 24,
                                             ),
                                             Text(
                                               "Watch Trailer",
                                               style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.white,
                                                 fontWeight: FontWeight.bold,
+                                                fontSize: 18,
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.favorite_border,
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _isBookmarked = !_isBookmarked;
+                                        });
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).hideCurrentSnackBar();
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              _isBookmarked
+                                                  ? 'Added to Bookmark'
+                                                  : 'Removed from Bookmark',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                            backgroundColor: Color(0xFF1D1D26),
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            duration: Duration(seconds: 2),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusGeometry.circular(12),
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 14,
+                                        ),
+                                        backgroundColor: Colors.white
+                                            .withValues(alpha: 0.05),
+                                      ),
+                                      child: Icon(
+                                        _isBookmarked
+                                            ? Icons.bookmark
+                                            : Icons.bookmark_border,
                                         color: Colors.white,
                                         size: 24,
                                       ),
@@ -277,7 +260,106 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ],
                                 ),
                               ),
+                              SizedBox(height: 24),
 
+                              Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.05),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: IntrinsicHeight(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Score",
+                                              style: TextStyle(
+                                                color: Colors.white.withValues(
+                                                  alpha: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              detail.score.toString(),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      VerticalDivider(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                        thickness: 1,
+                                        width: 24,
+                                      ),
+
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Rank",
+                                              style: TextStyle(
+                                                color: Colors.white.withValues(
+                                                  alpha: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              '#${detail.rank}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      VerticalDivider(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                        thickness: 1,
+                                        width: 24,
+                                      ),
+
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Popularity",
+                                              style: TextStyle(
+                                                color: Colors.white.withValues(
+                                                  alpha: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              '#${detail.popularity}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               SizedBox(height: 24),
                               SizedBox(
                                 width: double.infinity,
@@ -327,13 +409,108 @@ class _DetailScreenState extends State<DetailScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
-                                      detail.synopsis!,
-                                      style: TextStyle(
-                                        color: Colors.white.withValues(
-                                          alpha: 0.5,
-                                        ),
-                                      ),
+                                    LayoutBuilder(
+                                      builder: (context, constraints) {
+                                        final textStyle = TextStyle(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.5,
+                                          ),
+                                        );
+
+                                        final synopsis =
+                                            detail.synopsis ??
+                                            'No synopsis available.';
+
+                                        final textPainter =
+                                            TextPainter(
+                                              text: TextSpan(
+                                                text: synopsis,
+                                                style: textStyle,
+                                              ),
+                                              maxLines: 8,
+                                              textDirection: TextDirection.ltr,
+                                            )..layout(
+                                              maxWidth: constraints.maxWidth,
+                                            );
+
+                                        final hasOverflow =
+                                            textPainter.didExceedMaxLines;
+
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            AnimatedSize(
+                                              duration: Duration(
+                                                milliseconds: 250,
+                                              ),
+                                              curve: Curves.easeInOut,
+                                              child: Text(
+                                                synopsis,
+                                                maxLines: _isSynopsisExpanded
+                                                    ? null
+                                                    : 8,
+                                                overflow: _isSynopsisExpanded
+                                                    ? TextOverflow.visible
+                                                    : TextOverflow.ellipsis,
+                                                style: textStyle,
+                                              ),
+                                            ),
+
+                                            if (hasOverflow)
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _isSynopsisExpanded =
+                                                          !_isSynopsisExpanded;
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                          vertical: 6,
+                                                        ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          _isSynopsisExpanded
+                                                              ? "Read Less"
+                                                              : "Read More",
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                              0xFFFF2D55,
+                                                            ),
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 2),
+                                                        Icon(
+                                                          _isSynopsisExpanded
+                                                              ? Icons
+                                                                    .keyboard_arrow_up
+                                                              : Icons
+                                                                    .keyboard_arrow_down,
+                                                          color: Color(
+                                                            0xFFFF2D55,
+                                                          ),
+                                                          size: 18,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -485,7 +662,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                               ),
 
                                               Text(
-                                                detail.studios[0].name,
+                                                detail.studios.isNotEmpty
+                                                    ? detail.studios[0].name
+                                                    : "N/A",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                 ),
@@ -505,7 +684,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ],
                 ),
-              ); // RefreshIndicator
+              );
             },
           ),
 
@@ -520,9 +699,11 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.5),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withOpacity(0.2)),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: Icon(
                   Icons.arrow_back_ios_new_rounded,
