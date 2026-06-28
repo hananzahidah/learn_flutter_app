@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/day_33/tugas/models/anime_models.dart';
 import 'package:flutter_application_1/day_33/tugas/services/api_anime_services.dart';
 import 'package:flutter_application_1/day_33/tugas/services/dio_client.dart';
 import 'package:flutter_application_1/day_33/tugas/views/anime_detail_screen.dart';
+import 'package:flutter_application_1/day_33/tugas/views/app_color.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 import 'package:lottie/lottie.dart';
 
@@ -43,7 +45,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0D0D15),
+      backgroundColor: AppColor.background,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -131,7 +133,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            backgroundColor: Color(0xFFFF2D55),
+                            backgroundColor: AppColor.primary,
                           ),
                         ),
                       ],
@@ -209,7 +211,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(
-                          color: Color(0xFFFF2D55),
+                          color: AppColor.primary,
                           width: 1,
                         ),
                       ),
@@ -246,8 +248,8 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? Color(0xFFFF2D55)
-                                      : Colors.white.withValues(alpha: 0.05),
+                                      ? AppColor.primary
+                                      : AppColor.cardBg,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
                                     color: isSelected
@@ -293,8 +295,8 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? Color(0xFFFF2D55)
-                                    : Colors.white.withValues(alpha: 0.05),
+                                    ? AppColor.primary
+                                    : AppColor.cardBg,
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
                                   color: isSelected
@@ -320,7 +322,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   Expanded(
                     child: filteredAnimes.isEmpty
@@ -356,9 +358,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withValues(
-                                        alpha: 0.05,
-                                      ),
+                                      color: AppColor.cardBg,
                                       borderRadius: BorderRadius.circular(12),
                                       border: Border.all(
                                         color: Colors.white.withValues(
@@ -378,10 +378,39 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                                     BorderRadius.vertical(
                                                       top: Radius.circular(12),
                                                     ),
-                                                child: Image.network(
-                                                  anime.images.jpg.imageUrl,
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      anime.images.jpg.imageUrl,
                                                   width: double.infinity,
                                                   fit: BoxFit.cover,
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                        color: AppColor.cardBg,
+                                                        child: Center(
+                                                          child: SizedBox(
+                                                            width: 20,
+                                                            height: 20,
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                                  strokeWidth:
+                                                                      2,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                  errorWidget:
+                                                      (
+                                                        context,
+                                                        url,
+                                                        error,
+                                                      ) => Container(
+                                                        color: AppColor.cardBg,
+                                                        child: Icon(
+                                                          Icons
+                                                              .broken_image_rounded,
+                                                          color: Colors.white24,
+                                                        ),
+                                                      ),
                                                 ),
                                               ),
 
@@ -399,7 +428,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                                           8,
                                                         ),
 
-                                                    color: Color(0xFFFF2D55),
+                                                    color: AppColor.primary,
                                                     // .withValues(alpha: 0.5),
                                                   ),
                                                   child: Text(

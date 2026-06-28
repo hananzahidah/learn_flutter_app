@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/day_33/tugas/models/anime_detail_models.dart';
 import 'package:flutter_application_1/day_33/tugas/services/api_anime_services.dart';
 import 'package:flutter_application_1/day_33/tugas/services/dio_client.dart';
+import 'package:flutter_application_1/day_33/tugas/views/app_color.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 import 'package:lottie/lottie.dart';
 
@@ -36,25 +38,98 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0D0D15),
-      // backgroundColor: Color(0xFFFAF9FD),
+      backgroundColor: AppColor.background,
       body: Stack(
         children: [
           FutureBuilder(
             future: _detailsFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 180,
+                        child: Lottie.asset(
+                          'assets/animations/loading.json',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Loading...",
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               }
 
               if (snapshot.hasError) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Lottie.asset('assets/animations/empty.json', width: 250),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset(
+                          'assets/animations/empty.json',
+                          width: 220,
+                          repeat: true,
+                        ),
+                        Text(
+                          "Oops!",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "Failed to load anime data.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.7),
+                            fontSize: 15,
+                            height: 1.5,
+                          ),
+                        ),
+                        SizedBox(height: 24),
+
+                        ElevatedButton.icon(
+                          onPressed: _refreshPosts,
+                          icon: Icon(
+                            Icons.refresh,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          label: Text(
+                            "Try Again",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 14,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            backgroundColor: AppColor.primary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }
@@ -77,9 +152,28 @@ class _DetailScreenState extends State<DetailScreen> {
                               height: 450,
                               width: double.infinity,
                               child: ClipRRect(
-                                child: Image.network(
-                                  detail.images.jpg.largeImageUrl,
+                                child: CachedNetworkImage(
+                                  imageUrl: detail.images.jpg.largeImageUrl,
                                   fit: BoxFit.cover,
+                                  placeholder: (context, url) => Container(
+                                    color: AppColor.cardBg,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 3,
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                        color: AppColor.cardBg,
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.broken_image_rounded,
+                                            color: Colors.white24,
+                                            size: 48,
+                                          ),
+                                        ),
+                                      ),
                                 ),
                               ),
                             ),
@@ -91,8 +185,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                   begin: Alignment.bottomCenter,
                                   end: Alignment.topCenter,
                                   colors: [
-                                    Color(0xFF0D0D15),
-                                    Color(0xFF0D0D15).withValues(alpha: 0.0),
+                                    AppColor.background,
+                                    AppColor.background.withValues(alpha: 0.0),
                                   ],
                                 ),
                               ),
@@ -147,7 +241,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
 
                         Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.all(20.0),
                           child: Column(
                             children: [
                               SizedBox(
@@ -167,7 +261,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           padding: EdgeInsets.symmetric(
                                             vertical: 14,
                                           ),
-                                          backgroundColor: Color(0xFFFF2D55),
+                                          backgroundColor: AppColor.primary,
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
@@ -212,7 +306,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                            backgroundColor: Color(0xFF1D1D26),
+                                            backgroundColor:
+                                                AppColor.bottomSheetBg,
                                             behavior: SnackBarBehavior.floating,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -230,8 +325,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         padding: EdgeInsets.symmetric(
                                           vertical: 14,
                                         ),
-                                        backgroundColor: Colors.white
-                                            .withValues(alpha: 0.05),
+                                        backgroundColor: AppColor.cardBg,
                                       ),
                                       child: Icon(
                                         _isBookmarked
@@ -250,7 +344,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 width: double.infinity,
                                 padding: EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.05),
+                                  color: AppColor.cardBg,
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: IntrinsicHeight(
@@ -467,9 +561,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                                               ? "Read Less"
                                                               : "Read More",
                                                           style: TextStyle(
-                                                            color: Color(
-                                                              0xFFFF2D55,
-                                                            ),
+                                                            color: AppColor
+                                                                .primary,
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontSize: 14,
@@ -482,9 +575,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                                                     .keyboard_arrow_up
                                                               : Icons
                                                                     .keyboard_arrow_down,
-                                                          color: Color(
-                                                            0xFFFF2D55,
-                                                          ),
+                                                          color:
+                                                              AppColor.primary,
                                                           size: 18,
                                                         ),
                                                       ],
@@ -526,9 +618,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         Container(
                                           height: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withValues(
-                                              alpha: 0.05,
-                                            ),
+                                            color: AppColor.cardBg,
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
@@ -559,9 +649,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         Container(
                                           height: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withValues(
-                                              alpha: 0.05,
-                                            ),
+                                            color: AppColor.cardBg,
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
@@ -591,9 +679,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         Container(
                                           height: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withValues(
-                                              alpha: 0.05,
-                                            ),
+                                            color: AppColor.cardBg,
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
@@ -624,9 +710,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         Container(
                                           height: double.infinity,
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withValues(
-                                              alpha: 0.05,
-                                            ),
+                                            color: AppColor.cardBg,
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
