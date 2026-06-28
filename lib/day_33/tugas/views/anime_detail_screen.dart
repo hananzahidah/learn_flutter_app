@@ -6,6 +6,7 @@ import 'package:flutter_application_1/day_33/tugas/services/dio_client.dart';
 import 'package:flutter_application_1/day_33/tugas/views/app_color.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailScreen extends StatefulWidget {
   final int id;
@@ -33,6 +34,53 @@ class _DetailScreenState extends State<DetailScreen> {
     setState(() {
       _detailsFuture = _apiService.getDetailAnime(widget.id);
     });
+  }
+
+  String? _extractYoutubeId(String? embedUrl) {
+    if (embedUrl == null || embedUrl.isEmpty) return null;
+    try {
+      final uri = Uri.parse(embedUrl);
+      final segments = uri.pathSegments;
+      final embedIndex = segments.indexOf('embed');
+      if (embedIndex != -1 && embedIndex + 1 < segments.length) {
+        return segments[embedIndex + 1];
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  Future<void> _launchTrailer(String? embedUrl, String? defaultId) async {
+    final youtubeId = (defaultId != null && defaultId.isNotEmpty)
+        ? defaultId
+        : _extractYoutubeId(embedUrl);
+
+    if (youtubeId == null || youtubeId.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("No trailer available."),
+            backgroundColor: Color(0xFFE53935),
+          ),
+        );
+      }
+      return;
+    }
+
+    final youtubeUri = Uri.parse("https://www.youtube.com/watch?v=$youtubeId");
+    debugPrint("Panzu Debug - youtubeUri: $youtubeUri");
+    try {
+      await launchUrl(youtubeUri, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      debugPrint("Panzu Debug - error launching URL: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Unable to open YouTube."),
+            backgroundColor: Color(0xFFE53935),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -250,7 +298,10 @@ class _DetailScreenState extends State<DetailScreen> {
                                   children: [
                                     Expanded(
                                       child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () => _launchTrailer(
+                                          detail.trailer.embedUrl,
+                                          detail.trailer.youtubeId,
+                                        ),
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
