@@ -4,6 +4,7 @@ import 'package:flutter_application_1/day_33/tugas/services/api_anime_services.d
 import 'package:flutter_application_1/day_33/tugas/services/dio_client.dart';
 import 'package:flutter_application_1/day_33/tugas/views/anime_detail_screen.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
+import 'package:lottie/lottie.dart';
 
 class AnimeListScreen extends StatefulWidget {
   const AnimeListScreen({super.key});
@@ -42,39 +43,96 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D15),
+      backgroundColor: Color(0xFF0D0D15),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: FutureBuilder(
             future: _animesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 180,
+                        child: Lottie.asset(
+                          'assets/animations/loading.json',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Loading...",
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               }
 
               if (snapshot.hasError) {
                 return Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: EdgeInsets.symmetric(horizontal: 32),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.wifi_off,
-                          size: 64,
-                          color: Colors.grey,
+                        Lottie.asset(
+                          'assets/animations/empty.json',
+                          width: 220,
+                          repeat: true,
                         ),
-                        const SizedBox(height: 16),
                         Text(
-                          'Gagal memuat data:\n${snapshot.error}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: Colors.grey),
+                          "Oops!",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
+                        SizedBox(height: 4),
+                        Text(
+                          "Failed to load anime data.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.7),
+                            fontSize: 15,
+                            height: 1.5,
+                          ),
+                        ),
+                        SizedBox(height: 24),
+
+                        ElevatedButton.icon(
                           onPressed: _refreshPosts,
-                          child: const Text('Coba Lagi'),
+                          icon: Icon(
+                            Icons.refresh,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          label: Text(
+                            "Try Again",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 14,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            backgroundColor: Color(0xFFFF2D55),
+                          ),
                         ),
                       ],
                     ),
@@ -83,7 +141,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
               }
 
               if (!snapshot.hasData) {
-                return const Center(
+                return Center(
                   child: Text(
                     'Tidak ada data post.',
                     style: TextStyle(color: Colors.white),
@@ -117,22 +175,16 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                 children: [
                   TextField(
                     controller: _searchController,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: "Search by title...",
                       hintStyle: TextStyle(
                         color: Colors.white.withValues(alpha: 0.4),
                       ),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.white54,
-                      ),
+                      prefixIcon: Icon(Icons.search, color: Colors.white54),
                       suffixIcon: _searchQuery.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(
-                                Icons.clear,
-                                color: Colors.white54,
-                              ),
+                              icon: Icon(Icons.clear, color: Colors.white54),
                               onPressed: () {
                                 _searchController.clear();
                                 setState(() {
@@ -143,7 +195,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                           : null,
                       filled: true,
                       fillColor: Colors.white.withValues(alpha: 0.05),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                      contentPadding: EdgeInsets.symmetric(vertical: 16),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -156,7 +208,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                           color: Color(0xFFFF2D55),
                           width: 1,
                         ),
@@ -168,7 +220,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                       });
                     },
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   SizedBox(
                     height: 40,
@@ -179,7 +231,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                         if (index == 0) {
                           final isSelected = _selectedGenreId == null;
                           return Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: EdgeInsets.only(right: 8.0),
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -188,13 +240,13 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                               },
                               child: Container(
                                 alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(
+                                padding: EdgeInsets.symmetric(
                                   horizontal: 16,
                                   vertical: 8,
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? const Color(0xFFFF2D55)
+                                      ? Color(0xFFFF2D55)
                                       : Colors.white.withValues(alpha: 0.05),
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
@@ -226,7 +278,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                         final isSelected = _selectedGenreId == genreId;
 
                         return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
+                          padding: EdgeInsets.only(right: 8.0),
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -235,13 +287,13 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                             },
                             child: Container(
                               alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 8,
                               ),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? const Color(0xFFFF2D55)
+                                    ? Color(0xFFFF2D55)
                                     : Colors.white.withValues(alpha: 0.05),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
@@ -272,7 +324,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
 
                   Expanded(
                     child: filteredAnimes.isEmpty
-                        ? const Center(
+                        ? Center(
                             child: Text(
                               "No anime matches your search or filter.",
                               style: TextStyle(
@@ -284,11 +336,11 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                         : RefreshIndicator(
                             onRefresh: () async => _refreshPosts(),
                             child: GridView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              padding: const EdgeInsets.only(bottom: 16),
+                              physics: BouncingScrollPhysics(),
+                              padding: EdgeInsets.only(bottom: 16),
                               itemCount: filteredAnimes.length,
                               gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                  SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     crossAxisSpacing: 16,
                                     mainAxisSpacing: 16,
@@ -319,23 +371,54 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.vertical(
-                                                  top: Radius.circular(12),
+                                          child: Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                      top: Radius.circular(12),
+                                                    ),
+                                                child: Image.network(
+                                                  anime.images.jpg.imageUrl,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.cover,
                                                 ),
-                                            child: Image.network(
-                                              anime.images.jpg.imageUrl,
-                                              width: double.infinity,
-                                              fit: BoxFit.cover,
-                                            ),
+                                              ),
+
+                                              Positioned(
+                                                left: 8,
+                                                top: 8,
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: 6,
+                                                    horizontal: 10,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          8,
+                                                        ),
+
+                                                    color: Color(0xFFFF2D55),
+                                                    // .withValues(alpha: 0.5),
+                                                  ),
+                                                  child: Text(
+                                                    anime.type,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
 
                                         SizedBox(
                                           height: 85,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(10),
+                                            padding: EdgeInsets.all(10),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -347,7 +430,7 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15,
                                                       fontWeight:
@@ -357,20 +440,20 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                                   ),
                                                 ),
 
-                                                const Spacer(),
+                                                Spacer(),
 
                                                 Row(
                                                   children: [
-                                                    const Icon(
+                                                    Icon(
                                                       Icons.star,
                                                       color: Color(0xffFFB59E),
                                                       size: 14,
                                                     ),
-                                                    const SizedBox(width: 4),
+                                                    SizedBox(width: 4),
                                                     Text(
                                                       anime.score?.toString() ??
                                                           "-",
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                         color: Color(
                                                           0xffC8C5D1,
                                                         ),
@@ -378,11 +461,11 @@ class _AnimeListScreenState extends State<AnimeListScreen> {
                                                       ),
                                                     ),
 
-                                                    const Spacer(),
+                                                    Spacer(),
 
                                                     Text(
                                                       "#${anime.rank ?? "-"}",
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                         color: Color(
                                                           0xff7B7A84,
                                                         ),

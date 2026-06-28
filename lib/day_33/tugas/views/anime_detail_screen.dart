@@ -3,6 +3,7 @@ import 'package:flutter_application_1/day_33/tugas/models/anime_detail_models.da
 import 'package:flutter_application_1/day_33/tugas/services/api_anime_services.dart';
 import 'package:flutter_application_1/day_33/tugas/services/dio_client.dart';
 import 'package:flutter_application_1/extension/navigator.dart';
+import 'package:lottie/lottie.dart';
 
 class DetailScreen extends StatefulWidget {
   final int id;
@@ -48,29 +49,12 @@ class _DetailScreenState extends State<DetailScreen> {
 
               if (snapshot.hasError) {
                 return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.wifi_off,
-                          size: 64,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Gagal memuat data:\n${snapshot.error}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: _refreshPosts,
-                          child: const Text('Coba Lagi'),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Lottie.asset('assets/animations/empty.json', width: 250),
+                    ],
                   ),
                 );
               }
@@ -368,7 +352,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   runSpacing: 8,
                                   children: detail.genres.map((genre) {
                                     return Container(
-                                      padding: const EdgeInsets.symmetric(
+                                      padding: EdgeInsets.symmetric(
                                         horizontal: 10,
                                         vertical: 5,
                                       ),
@@ -383,7 +367,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       ),
                                       child: Text(
                                         genre.name,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 11,
                                           fontWeight: FontWeight.w500,
