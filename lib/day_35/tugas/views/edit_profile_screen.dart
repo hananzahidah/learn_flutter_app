@@ -91,12 +91,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   width: 44,
                   height: 44,
                   decoration: BoxDecoration(
-                    color: Colors.indigo.shade50,
+                    color: const Color(0xFF327AF4).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.camera_alt_rounded,
-                    color: Colors.indigo.shade400,
+                    color: Color(0xFF327AF4),
                   ),
                 ),
                 title: const Text('Kamera'),
@@ -114,12 +114,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   width: 44,
                   height: 44,
                   decoration: BoxDecoration(
-                    color: Colors.indigo.shade50,
+                    color: const Color(0xFF327AF4).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.photo_library_rounded,
-                    color: Colors.indigo.shade400,
+                    color: Color(0xFF327AF4),
                   ),
                 ),
                 title: const Text('Galeri'),
@@ -302,10 +302,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   padding: const EdgeInsets.all(4),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    gradient: LinearGradient(
+                                    gradient: const LinearGradient(
                                       colors: [
-                                        Colors.indigo.shade400,
-                                        Colors.blue.shade300,
+                                        Color(0xFF327AF4),
+                                        Color(0xFF60A5FA),
                                       ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
@@ -325,10 +325,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     child:
                                         (_selectedImage == null &&
                                             _currentPhotoUrl == null)
-                                        ? Icon(
+                                        ? const Icon(
                                             Icons.person_rounded,
                                             size: 56,
-                                            color: Colors.indigo.shade300,
+                                            color: Color(0xFF327AF4),
                                           )
                                         : null,
                                   ),
@@ -380,10 +380,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Center(
                           child: TextButton(
                             onPressed: _showImagePickerSheet,
-                            child: Text(
+                            child: const Text(
                               'Ubah Foto Profil',
                               style: TextStyle(
-                                color: Colors.indigo.shade400,
+                                color: Color(0xFF327AF4),
                                 fontWeight: FontWeight.w600,
                                 fontSize: 14,
                               ),
@@ -397,45 +397,47 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           controller: _nameController,
                           decoration: InputDecoration(
                             labelText: 'Nama Lengkap',
+                            labelStyle: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                             hintText: 'Masukkan nama lengkap',
-                            prefixIcon: Icon(
+                            hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                            prefixIcon: const Icon(
                               Icons.person_outline_rounded,
-                              color: Colors.indigo.shade400,
+                              color: Color(0xFF327AF4),
                             ),
                             filled: true,
-                            fillColor: Colors.grey.shade50,
+                            fillColor: const Color(0xFFF8FAFC),
                             contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
+                              horizontal: 18,
+                              vertical: 16,
                             ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                               borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color: Colors.grey.shade200,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                               borderSide: BorderSide(
-                                color: Colors.grey.shade300,
+                                color: Colors.grey.shade200,
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                               borderSide: const BorderSide(
-                                color: Colors.indigo,
-                                width: 1.5,
+                                color: Color(0xFF327AF4),
+                                width: 2,
                               ),
                             ),
                             errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                               borderSide: const BorderSide(color: Colors.red),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                               borderSide: const BorderSide(
                                 color: Colors.red,
-                                width: 1.5,
+                                width: 2,
                               ),
                             ),
                           ),
@@ -450,8 +452,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         const SizedBox(height: 34),
 
                         // ── Save Button ──
-                        SizedBox(
-                          height: 52,
+                        Container(
+                          width: double.infinity,
+                          height: 54,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF327AF4),
+                                Color(0xFF60A5FA),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF327AF4).withOpacity(0.3),
+                                blurRadius: 16,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
                           child: ElevatedButton.icon(
                             onPressed: _isLoading ? null : _updateProfile,
                             icon: _isLoading
@@ -463,43 +484,43 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       strokeWidth: 2.5,
                                     ),
                                   )
-                                : const Icon(Icons.save_rounded, size: 20),
+                                : const Icon(Icons.save_rounded, size: 20, color: Colors.white),
                             label: Text(
                               _isLoading ? 'Menyimpan...' : 'Simpan Perubahan',
                               style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.indigo,
-                              foregroundColor: Colors.white,
-                              disabledBackgroundColor: Colors.indigo.shade200,
-                              elevation: 0,
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 14),
 
                         // ── Cancel Button ──
                         SizedBox(
-                          height: 52,
+                          width: double.infinity,
+                          height: 54,
                           child: OutlinedButton(
                             onPressed: () => Navigator.pop(context),
                             style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.grey.shade300),
+                              side: BorderSide(color: Colors.grey.shade200),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                             ),
                             child: Text(
                               'Batal',
                               style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.grey.shade600,
                               ),
                             ),

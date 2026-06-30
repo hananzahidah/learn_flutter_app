@@ -105,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildBody() {
     if (_isLoading) {
       return const Center(
-        child: CircularProgressIndicator(color: Colors.indigo),
+        child: CircularProgressIndicator(color: Color(0xFF327AF4)),
       );
     }
 
@@ -141,10 +141,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: const Icon(Icons.refresh_rounded),
                 label: const Text('Coba Lagi'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.indigo,
+                  backgroundColor: const Color(0xFF327AF4),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                   ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
@@ -166,21 +166,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     return RefreshIndicator(
       onRefresh: _loadProfile,
-      color: Colors.indigo,
+      color: const Color(0xFF327AF4),
       child: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
 
         slivers: [
           // Gradient Header
           SliverToBoxAdapter(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.indigo.shade500, Colors.blue.shade400],
+                  colors: [Color(0xFF327AF4), Color(0xFF60A5FA)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(32),
                   bottomRight: Radius.circular(32),
                 ),
@@ -315,9 +315,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
+                          color: const Color(0xFF327AF4).withOpacity(0.06),
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
                         ),
                       ],
                     ),
@@ -385,9 +385,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
+                        color: const Color(0xFF327AF4).withOpacity(0.06),
+                        blurRadius: 16,
+                        offset: const Offset(0, 6),
                       ),
                     ],
                   ),
@@ -397,11 +397,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: Colors.indigo.shade50,
+                          color: const Color(0xFF327AF4).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(Icons.info_outline_rounded,
-                            color: Colors.indigo.shade400),
+                        child: const Icon(Icons.info_outline_rounded,
+                            color: Color(0xFF327AF4)),
                       ),
                       const SizedBox(width: 14),
                       Expanded(
@@ -481,10 +481,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.indigo.shade50,
+            color: const Color(0xFF327AF4).withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, size: 20, color: Colors.indigo.shade400),
+          child: Icon(icon, size: 20, color: const Color(0xFF327AF4)),
         ),
         title: Text(
           label,

@@ -27,13 +27,13 @@ class DetailProfileScreen extends StatelessWidget {
           // ── Gradient Header ──
           SliverToBoxAdapter(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.indigo.shade500, Colors.blue.shade400],
+                  colors: [Color(0xFF327AF4), Color(0xFF60A5FA)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(32),
                   bottomRight: Radius.circular(32),
                 ),
@@ -271,12 +271,12 @@ class DetailProfileScreen extends StatelessWidget {
               width: 4,
               height: 18,
               decoration: BoxDecoration(
-                color: Colors.indigo,
+                color: const Color(0xFF327AF4),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
             const SizedBox(width: 10),
-            Icon(icon, size: 18, color: Colors.indigo.shade400),
+            Icon(icon, size: 18, color: const Color(0xFF327AF4)),
             const SizedBox(width: 6),
             Text(
               title,
@@ -295,9 +295,9 @@ class DetailProfileScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+                color: const Color(0xFF327AF4).withOpacity(0.06),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
               ),
             ],
           ),
@@ -330,10 +330,10 @@ class DetailProfileScreen extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.indigo.shade50,
+            color: const Color(0xFF327AF4).withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, size: 20, color: Colors.indigo.shade400),
+          child: Icon(icon, size: 20, color: const Color(0xFF327AF4)),
         ),
         title: Text(
           label,

@@ -103,31 +103,33 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return InputDecoration(
       labelText: label,
+      labelStyle: TextStyle(color: Colors.grey.shade600, fontSize: 14),
       hintText: hint,
-      prefixIcon: Icon(icon, color: Colors.indigo.shade400),
+      hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+      prefixIcon: Icon(icon, color: const Color(0xFF327AF4)),
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: Colors.grey.shade50,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      fillColor: const Color(0xFFF8FAFC),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey.shade200),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey.shade200),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.indigo, width: 1.5),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(color: Color(0xFF327AF4), width: 2),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.red, width: 1.5),
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(color: Colors.red, width: 2),
       ),
     );
   }
@@ -140,8 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
@@ -154,29 +155,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // Logo / Icon
                         Container(
-                          width: 90,
-                          height: 90,
+                          width: 100,
+                          height: 100,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               colors: [
-                                Colors.indigo.shade400,
-                                Colors.blue.shade300,
+                                Color(0xFF327AF4),
+                                Color(0xFF60A5FA),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(24),
+                            borderRadius: BorderRadius.circular(28),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.indigo.withOpacity(0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 8),
+                                color: const Color(0xFF327AF4).withOpacity(0.25),
+                                blurRadius: 24,
+                                offset: const Offset(0, 10),
                               ),
                             ],
                           ),
                           child: const Icon(
-                            Icons.lock_open_rounded,
-                            size: 44,
+                            Icons.fingerprint_rounded,
+                            size: 52,
                             color: Colors.white,
                           ),
                         ),
@@ -184,16 +185,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // Title
                         const Text(
-                          'Selamat Datang',
+                          'Absensi PPKD',
                           style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black87,
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF327AF4),
+                            letterSpacing: -0.5,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 8),
                         Text(
-                          'Silakan login untuk melanjutkan',
+                          'Silakan login untuk mencatat kehadiran Anda',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey.shade500,
@@ -221,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 18),
 
                         // Password
                         TextFormField(
@@ -253,22 +256,38 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
 
-                        const SizedBox(height: 28),
+                        const SizedBox(height: 32),
 
                         // Login Button
-                        SizedBox(
+                        Container(
                           width: double.infinity,
-                          height: 52,
+                          height: 54,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFF327AF4),
+                                Color(0xFF60A5FA),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF327AF4).withOpacity(0.3),
+                                blurRadius: 16,
+                                offset: const Offset(0, 6),
+                              ),
+                            ],
+                          ),
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _login,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.indigo,
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
                               foregroundColor: Colors.white,
-                              disabledBackgroundColor: Colors.indigo.shade200,
-                              elevation: 2,
-                              shadowColor: Colors.indigo.withOpacity(0.4),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                             ),
                             child: _isLoading
@@ -281,10 +300,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   )
                                 : const Text(
-                                    'Login',
+                                    'Masuk',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
                           ),
@@ -315,8 +335,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: const Text(
                                   'Daftar di sini',
                                   style: TextStyle(
-                                    color: Colors.indigo,
-                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF327AF4),
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),

@@ -18,33 +18,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter',
-      // theme: ThemeData(
-      //   useMaterial3: true,
-      //   brightness: Brightness.dark,
-      //   scaffoldBackgroundColor: AppColor.background,
-      //   colorScheme: const ColorScheme.dark(
-      //     primary: AppColor.primary,
-      //     secondary: AppColor.primary,
-      //     surface: AppColor.background,
-      //     onPrimary: Colors.white,
-      //   ),
-      //   textTheme: GoogleFonts.soraTextTheme(ThemeData.dark().textTheme),
-      //   progressIndicatorTheme: const ProgressIndicatorThemeData(
-      //     color: AppColor.primary,
-      //   ),
-      //   textSelectionTheme: const TextSelectionThemeData(
-      //     cursorColor: AppColor.primary,
-      //     selectionColor: AppColor.primary,
-      //     selectionHandleColor: AppColor.primary,
-      //   ),
-      //   elevatedButtonTheme: ElevatedButtonThemeData(
-      //     style: ElevatedButton.styleFrom(
-      //       backgroundColor: AppColor.primary,
-      //       foregroundColor: Colors.white,
-      //     ),
-      //   ),
-      // ),
+      title: 'Absensi PPKD',
+      theme: ThemeData(
+        useMaterial3: true,
+        primaryColor: const Color(0xFF327AF4),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF327AF4),
+          primary: const Color(0xFF327AF4),
+        ),
+      ),
       home: const LoginScreen(),
     );
   }
