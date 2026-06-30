@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/day_19/database/preference_handler.dart';
-import 'package:flutter_application_1/day_33/tugas/views/app_color.dart';
-import 'package:flutter_application_1/day_33/tugas/views/splash_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/day_35/tugas/views/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
@@ -20,34 +18,34 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Panzu',
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: AppColor.background,
-        colorScheme: const ColorScheme.dark(
-          primary: AppColor.primary,
-          secondary: AppColor.primary,
-          surface: AppColor.background,
-          onPrimary: Colors.white,
-        ),
-        textTheme: GoogleFonts.soraTextTheme(ThemeData.dark().textTheme),
-        progressIndicatorTheme: const ProgressIndicatorThemeData(
-          color: AppColor.primary,
-        ),
-        textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: AppColor.primary,
-          selectionColor: AppColor.primary,
-          selectionHandleColor: AppColor.primary,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColor.primary,
-            foregroundColor: Colors.white,
-          ),
-        ),
-      ),
-      home: const SplashScreen(),
+      title: 'Flutter',
+      // theme: ThemeData(
+      //   useMaterial3: true,
+      //   brightness: Brightness.dark,
+      //   scaffoldBackgroundColor: AppColor.background,
+      //   colorScheme: const ColorScheme.dark(
+      //     primary: AppColor.primary,
+      //     secondary: AppColor.primary,
+      //     surface: AppColor.background,
+      //     onPrimary: Colors.white,
+      //   ),
+      //   textTheme: GoogleFonts.soraTextTheme(ThemeData.dark().textTheme),
+      //   progressIndicatorTheme: const ProgressIndicatorThemeData(
+      //     color: AppColor.primary,
+      //   ),
+      //   textSelectionTheme: const TextSelectionThemeData(
+      //     cursorColor: AppColor.primary,
+      //     selectionColor: AppColor.primary,
+      //     selectionHandleColor: AppColor.primary,
+      //   ),
+      //   elevatedButtonTheme: ElevatedButtonThemeData(
+      //     style: ElevatedButton.styleFrom(
+      //       backgroundColor: AppColor.primary,
+      //       foregroundColor: Colors.white,
+      //     ),
+      //   ),
+      // ),
+      home: const LoginScreen(),
     );
   }
 }
